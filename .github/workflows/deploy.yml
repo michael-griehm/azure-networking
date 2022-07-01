@@ -24,47 +24,47 @@ permissions:
 
 jobs:
   plan-workload:
-      name: 'plan workload'
-      needs: apply-key-vault
-      runs-on: ubuntu-latest
-      defaults:
-        run:
-          working-directory: ${{ env.WORKLOAD_WORKING_DIRECTORY }}
-      steps:
-        - name: 'Checkout Repo'
-          uses: actions/checkout@v2
-        - name: 'Azure Login'
-          uses: azure/login@v1
-          with:
-            tenant-id: ${{ secrets.TENANT_ID }}
-            subscription-id: ${{ secrets.SUBSCRIPTION_ID }}
-            client-id: ${{ secrets.CLIENT_ID }}
-        - name: 'Get Deployer Secrets'
-          id: get-deployer-secret
-          uses: azure/get-keyvault-secrets@v1
-          with:
-            keyvault: ${{ secrets.DEPLOYER_KEY_VAULT }}
-            secrets: 'networking-demo-eastus2-deployer, tfnetworkinged-access-key'
-        - name: 'Setup Terraform'
-          uses: hashicorp/setup-terraform@v1
-        - name: 'Terraform Init'
-          env: 
-            TF_CLI_ARGS_init: "-backend-config='resource_group_name=${{env.REMOTE_STATE_RG}}' -backend-config='storage_account_name=${{env.REMOTE_STATE_SA}}' -backend-config='container_name=${{env.REMOTE_STATE_CONTAINER}}' -backend-config='key=${{env.WORKLOAD_REMOTE_STATE_KEY}}'"
-            ARM_ACCESS_KEY: ${{ steps.get-deployer-secret.outputs.tfnetworkinged-access-key }}
-          run: terraform init
-        - name: 'Terraform Validate'
-          run: terraform validate
-        - name: 'Terraform Plan'
-          env:        
-            ARM_CLIENT_SECRET: ${{ steps.get-deployer-secret.outputs.networking-demo-eastus2-deployer }}
-            ARM_ACCESS_KEY: ${{ steps.get-deployer-secret.outputs.tfnetworkinged-access-key }}
-          run: terraform plan -out="./workload.tfplan"
-        - name: 'Upload Plan'
-          uses: actions/upload-artifact@v2
-          with:
-            name: workload-plan
-            path: ${{ env.WORKLOAD_WORKING_DIRECTORY }}/workload.tfplan
-            retention-days: 1
+    name: 'plan workload'
+    needs: apply-key-vault
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ env.WORKLOAD_WORKING_DIRECTORY }}
+    steps:
+      - name: 'Checkout Repo'
+        uses: actions/checkout@v2
+      - name: 'Azure Login'
+        uses: azure/login@v1
+        with:
+          tenant-id: ${{ secrets.TENANT_ID }}
+          subscription-id: ${{ secrets.SUBSCRIPTION_ID }}
+          client-id: ${{ secrets.CLIENT_ID }}
+      - name: 'Get Deployer Secrets'
+        id: get-deployer-secret
+        uses: azure/get-keyvault-secrets@v1
+        with:
+          keyvault: ${{ secrets.DEPLOYER_KEY_VAULT }}
+          secrets: 'networking-demo-eastus2-deployer, tfnetworkinged-access-key'
+      - name: 'Setup Terraform'
+        uses: hashicorp/setup-terraform@v1
+      - name: 'Terraform Init'
+        env: 
+          TF_CLI_ARGS_init: "-backend-config='resource_group_name=${{env.REMOTE_STATE_RG}}' -backend-config='storage_account_name=${{env.REMOTE_STATE_SA}}' -backend-config='container_name=${{env.REMOTE_STATE_CONTAINER}}' -backend-config='key=${{env.WORKLOAD_REMOTE_STATE_KEY}}'"
+          ARM_ACCESS_KEY: ${{ steps.get-deployer-secret.outputs.tfnetworkinged-access-key }}
+        run: terraform init
+      - name: 'Terraform Validate'
+        run: terraform validate
+      - name: 'Terraform Plan'
+        env:        
+          ARM_CLIENT_SECRET: ${{ steps.get-deployer-secret.outputs.networking-demo-eastus2-deployer }}
+          ARM_ACCESS_KEY: ${{ steps.get-deployer-secret.outputs.tfnetworkinged-access-key }}
+        run: terraform plan -out="./workload.tfplan"
+      - name: 'Upload Plan'
+        uses: actions/upload-artifact@v2
+        with:
+          name: workload-plan
+          path: ${{ env.WORKLOAD_WORKING_DIRECTORY }}/workload.tfplan
+          retention-days: 1
   apply-workload:
     name: 'apply workload'
     needs: plan-workload
