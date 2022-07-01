@@ -13,7 +13,7 @@ env:
   WORKLOAD_REMOTE_STATE_KEY: networking.terraform.tfstate
   REMOTE_STATE_RG: networking-demo-eastus2
   REMOTE_STATE_SA: tfnetworkinged
-  REMOTE_STATE_CONTAINER: synapse-remote-state-centralus-demo
+  REMOTE_STATE_CONTAINER: networking-remote-state-eastus2-demo
   ARM_TENANT_ID: ${{ secrets.TENANT_ID }}
   ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
   ARM_CLIENT_ID: ${{ secrets.CLIENT_ID }}
