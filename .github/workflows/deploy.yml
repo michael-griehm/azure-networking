@@ -98,7 +98,7 @@ jobs:
       - name: 'Setup Terraform'
         uses: hashicorp/setup-terraform@v1
       - name: 'Terraform Init'
-        env: 
+        env:
           TF_CLI_ARGS_init: "-backend-config='resource_group_name=${{env.REMOTE_STATE_RG}}' -backend-config='storage_account_name=${{env.REMOTE_STATE_SA}}' -backend-config='container_name=${{env.REMOTE_STATE_CONTAINER}}' -backend-config='key=${{env.WORKLOAD_REMOTE_STATE_KEY}}'"
             ARM_ACCESS_KEY: ${{ steps.get-deployer-secret.outputs.tfnetworkinged-access-key }}
         working-directory: ${{ env.WORKLOAD_WORKING_DIRECTORY }}
