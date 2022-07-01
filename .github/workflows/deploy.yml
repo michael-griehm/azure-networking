@@ -25,7 +25,6 @@ permissions:
 jobs:
   plan-workload:
     name: 'plan workload'
-    needs: apply-key-vault
     runs-on: ubuntu-latest
     defaults:
       run:
