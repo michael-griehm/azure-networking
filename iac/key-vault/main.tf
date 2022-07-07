@@ -46,13 +46,6 @@ variable "admin_user_principal_name" {
   default     = "mikeg@ish-star.com"
 }
 
-variable "github_runner_admin_name" {
-  type        = string
-  sensitive   = true
-  description = "The name of the admin for the github runner vm."
-  default     = "github-admin"
-}
-
 locals {
   loc            = lower(replace(var.location, " ", ""))
   a_name         = replace(var.app_name, "-", "")

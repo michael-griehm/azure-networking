@@ -18,6 +18,13 @@ This repo contains the core hub and spoke network shared service for my Azure Su
     - Private Endpoint: 10.1.0.0/25
       - 10.1.0.0 thru 10.1.0.127
       - 128
+- Github Self-Hosted Runners: 10.1.1.0/24
+  - 10.1.1.0 thru 10.1.1.255
+  - 256
+  - Subnets
+    - Ubuntu: 10.1.1.0/25
+      - 10.1.1.0 thru 10.1.1.127
+      - 128
 - Delta Lakehouse Databricks Spoke
   - 10.2.0.0/16
     - 10.2.0.0 thru 10.2.255.255

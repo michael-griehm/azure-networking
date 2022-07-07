@@ -14,6 +14,6 @@ resource "azurerm_subnet" "storage_private_endpoint" {
 
   enforce_private_link_endpoint_network_policies = true
 
-  service_endpoints = [ "Microsoft.Storage" ]
+  service_endpoints = ["Microsoft.Storage"]
 }
 
