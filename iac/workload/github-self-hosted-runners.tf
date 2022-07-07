@@ -9,14 +9,14 @@ resource "azurerm_virtual_network" "github_self_hosted_runners" {
 resource "azurerm_virtual_network_peering" "github_self_hosted_runners_to_hub" {
   name                      = "github-self-hosted-runners-to-hub"
   resource_group_name       = data.azurerm_resource_group.rg.name
-  virtual_network_name      = azurerm_virtual_network.delta_lakehouse_databricks_spoke.name
+  virtual_network_name      = azurerm_virtual_network.github_self_hosted_runners.name
   remote_virtual_network_id = azurerm_virtual_network.hub.id
 }
 
 resource "azurerm_subnet" "ubuntu" {
   name                 = "ubuntu"
   resource_group_name  = data.azurerm_resource_group.rg.name
-  virtual_network_name = azurerm_virtual_network.delta_lakehouse_databricks_spoke.name
+  virtual_network_name = azurerm_virtual_network.github_self_hosted_runners.name
   address_prefixes     = ["10.1.1.0/25"]
 
   enforce_private_link_endpoint_network_policies = true
