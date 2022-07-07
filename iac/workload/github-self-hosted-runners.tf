@@ -45,6 +45,7 @@ resource "azurerm_network_interface" "nic" {
   name                = "github-runner-nic"
   location            = data.azurerm_resource_group.rg.location
   resource_group_name = data.azurerm_resource_group.rg.name
+  tags                = var.tags
 
   ip_configuration {
     name                          = "internal"
@@ -53,13 +54,15 @@ resource "azurerm_network_interface" "nic" {
   }
 }
 
-resource "azurerm_linux_virtual_machine" "example" {
-  name                = "github-runner-vm"
-  location            = data.azurerm_resource_group.rg.location
-  resource_group_name = data.azurerm_resource_group.rg.name
-  size                = "Standard_B2ms"
-  admin_username      = var.github_runner_admin_name
-  admin_password      = random_password.password.result
+resource "azurerm_linux_virtual_machine" "runner" {
+  name                            = "github-runner-vm"
+  location                        = data.azurerm_resource_group.rg.location
+  resource_group_name             = data.azurerm_resource_group.rg.name
+  size                            = "Standard_B2ms"
+  admin_username                  = var.github_runner_admin_name
+  admin_password                  = random_password.password.result
+  disable_password_authentication = false
+  tags                            = var.tags
 
   network_interface_ids = [
     azurerm_network_interface.nic.id,
@@ -75,5 +78,19 @@ resource "azurerm_linux_virtual_machine" "example" {
     offer     = "UbuntuServer"
     sku       = "18.04-LTS"
     version   = "latest"
+  }
+}
+
+resource "azurerm_dev_test_global_vm_shutdown_schedule" "runner" {
+  virtual_machine_id = azurerm_linux_virtual_machine.runner.id
+  location           = data.azurerm_resource_group.rg.location
+  enabled            = true
+  tags               = var.tags
+
+  daily_recurrence_time = "1700"
+  timezone              = "Eastern Standard Time"
+
+  notification_settings {
+    enabled = false
   }
 }
