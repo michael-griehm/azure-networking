@@ -20,5 +20,12 @@ This repo contains the core hub and spoke network shared service for my Azure Su
       - 128
 - Delta Lakehouse Databricks Spoke
   - 10.2.0.0/16
-    - 10.2.0.1 thru 10.2.255.254
+    - 10.2.0.0 thru 10.2.255.255
     - 65,534
+    - Subnets:
+      - Databricks Public: 10.2.0.0/24 
+        - 10.2.0.0 thru 10.2.0.255
+        - 256
+      - Databricks Private: 10.2.1.0/24 
+        - 10.2.1.0 thru 10.2.1.255
+        - 256
