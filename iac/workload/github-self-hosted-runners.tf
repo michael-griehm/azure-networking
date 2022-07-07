@@ -41,6 +41,14 @@ resource "azurerm_key_vault_secret" "stored_secret" {
   key_vault_id = data.azurerm_key_vault.vault.id
 }
 
+resource "azurerm_public_ip" "public_ip" {
+  name                = "github-runner-public-ip"
+  location            = data.azurerm_resource_group.rg.location
+  resource_group_name = data.azurerm_resource_group.rg.name
+  tags                = var.tags
+  allocation_method   = "Dynamic"
+}
+
 resource "azurerm_network_interface" "nic" {
   name                = "github-runner-nic"
   location            = data.azurerm_resource_group.rg.location
@@ -51,18 +59,18 @@ resource "azurerm_network_interface" "nic" {
     name                          = "internal"
     subnet_id                     = azurerm_subnet.ubuntu.id
     private_ip_address_allocation = "Dynamic"
+    public_ip_address_id          = azurerm_public_ip.public_ip.id
   }
 }
 
-resource "azurerm_linux_virtual_machine" "runner" {
-  name                            = "github-runner-vm"
-  location                        = data.azurerm_resource_group.rg.location
-  resource_group_name             = data.azurerm_resource_group.rg.name
-  size                            = "Standard_B2ms"
-  admin_username                  = var.github_runner_admin_name
-  admin_password                  = random_password.password.result
-  disable_password_authentication = false
-  tags                            = var.tags
+resource "azurerm_windows_virtual_machine" "runner" {
+  name                = "github-runner-vm"
+  location            = data.azurerm_resource_group.rg.location
+  resource_group_name = data.azurerm_resource_group.rg.name
+  size                = "Standard_B2ms"
+  admin_username      = var.github_runner_admin_name
+  admin_password      = random_password.password.result
+  tags                = var.tags
 
   network_interface_ids = [
     azurerm_network_interface.nic.id,
@@ -74,15 +82,15 @@ resource "azurerm_linux_virtual_machine" "runner" {
   }
 
   source_image_reference {
-    publisher = "Canonical"
-    offer     = "UbuntuServer"
-    sku       = "18.04-LTS"
+    publisher = "MicrosoftWindowsServer"
+    offer     = "WindowsServer"
+    sku       = "2019-Datacenter"
     version   = "latest"
   }
 }
 
 resource "azurerm_dev_test_global_vm_shutdown_schedule" "runner" {
-  virtual_machine_id = azurerm_linux_virtual_machine.runner.id
+  virtual_machine_id = azurerm_windows_virtual_machine.runner.id
   location           = data.azurerm_resource_group.rg.location
   enabled            = true
   tags               = var.tags
@@ -94,3 +102,5 @@ resource "azurerm_dev_test_global_vm_shutdown_schedule" "runner" {
     enabled = false
   }
 }
+
+
