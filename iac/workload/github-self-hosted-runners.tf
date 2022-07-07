@@ -163,7 +163,7 @@ resource "azurerm_linux_virtual_machine" "ubuntu_runner" {
   }
 }
 
-resource "azurerm_dev_test_global_vm_shutdown_schedule" "runner" {
+resource "azurerm_dev_test_global_vm_shutdown_schedule" "ubuntu_runner" {
   virtual_machine_id = azurerm_linux_virtual_machine.ubuntu_runner.id
   location           = data.azurerm_resource_group.rg.location
   enabled            = true
