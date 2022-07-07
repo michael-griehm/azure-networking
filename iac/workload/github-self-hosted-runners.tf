@@ -65,6 +65,7 @@ resource "azurerm_network_interface" "nic" {
 
 resource "azurerm_windows_virtual_machine" "runner" {
   name                = "github-runner-vm"
+  computer_name       = "github-runner"
   location            = data.azurerm_resource_group.rg.location
   resource_group_name = data.azurerm_resource_group.rg.name
   size                = "Standard_B2ms"
