@@ -53,6 +53,13 @@ variable "github_runner_admin_name" {
   default     = "github-admin"
 }
 
+variable "jumpbox_admin_name" {
+  type        = string
+  sensitive   = true
+  description = "The name of the admin for the github runner vm."
+  default     = "jbx-admin"
+}
+
 locals {
   loc            = lower(replace(var.location, " ", ""))
   a_name         = replace(var.app_name, "-", "")
