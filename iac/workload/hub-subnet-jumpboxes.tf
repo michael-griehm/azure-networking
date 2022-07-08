@@ -17,7 +17,7 @@ resource "random_password" "jumpbox_password" {
 
 resource "azurerm_key_vault_secret" "jumpbox_admin_password" {
   name         = var.jumpbox_admin_name
-  value        = random_password.runner_password.result
+  value        = random_password.jumpbox_password.result
   key_vault_id = data.azurerm_key_vault.vault.id
 }
 
