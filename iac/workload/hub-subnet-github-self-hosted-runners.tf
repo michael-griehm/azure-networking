@@ -55,7 +55,7 @@ resource "azurerm_linux_virtual_machine" "runner" {
   tags                            = var.tags
 
   network_interface_ids = [
-    azurerm_network_interface.ubuntu_nic.id,
+    azurerm_network_interface.runner_nic.id,
   ]
 
   os_disk {
