@@ -46,11 +46,11 @@ variable "admin_user_principal_name" {
   default     = "mikeg@ish-star.com"
 }
 
-variable "github_runner_admin_name" {
+variable "dlta_lakehouse_runner_admin_name" {
   type        = string
   sensitive   = true
   description = "The name of the admin for the github runner vm."
-  default     = "github-admin"
+  default     = "dlta-lakehouse-runner-admin"
 }
 
 variable "jumpbox_admin_name" {
