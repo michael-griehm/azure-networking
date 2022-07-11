@@ -2,6 +2,23 @@
 
 This repo contains the core hub and spoke network shared service for my Azure Subscription.
 
+## Hub and Spoke Network Architecture
+
+A hub and spoke topology is a way to isolate workloads while sharing common services. These services include identity and security. The hub is a virtual network (VNet) that acts as a central connection point to an on-premises network. The spokes are VNets that peer with the hub. Shared services are deployed in the hub, while individual workloads are deployed inside spoke networks.
+
+### The Hub Network
+
+The hub of this network topology will contain the Shared Services of:
+
+- GitHub Self Hosted Runners
+- Jumpboxes for private network access
+
+### The Spoke Workload Networks
+
+The following are the spoke workload networks:
+
+- Delta Lakehouse Workload
+
 ## Workloads Deployed
 
 - Delta Lakehouse
@@ -36,11 +53,43 @@ This repo contains the core hub and spoke network shared service for my Azure Su
 
 The github self hosted runner is Ubuntu 20.04 LTS.
 
-Below is the 
+Below is the commands used to install the runner and other needed software.
 
-### Installed Software
+### Install GitHub Runner
 
-  
+Download
+
+    mkdir actions-runner && cd actions-runner
+
+    curl -o actions-runner-linux-x64-2.294.0.tar.gz -L https://github.com/actions/runner/releases/download/v2.294.0/actions-runner-linux-x64-2.294.0.tar.gz
+
+    echo "a19a09f4eda5716e5d48ba86b6b78fc014880c5619b9dba4a059eaf65e131780  actions-runner-linux-x64-2.294.0.tar.gz" | shasum -a 256 -c
+
+    tar xzf ./actions-runner-linux-x64-2.294.0.tar.gz
+
+Configure
+
+    ./config.sh --url https://github.com/michael-griehm/azure-delta-lakehouse --token AXFBR4T4VMOWIFY5OTKYFYTCZRXDI
+
+    ./run.sh
+
+### Install Azure CLI
+
+    curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+
+### Install Unzip
+
+    sudo apt install unzip
+
+### Install Nodejs
+
+    curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
+Might need to use the latest in the future.
+
+    curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+sudo apt-get install -y nodejs
 
 ## References
 
