@@ -34,6 +34,10 @@ This repo contains the core hub and spoke network shared service for my Azure Su
 
 ## Self Hosted Github 
 
+The github self hosted runner is Ubuntu 20.04 LTS.
+
+Below is the 
+
 ### Installed Software
 
   
