@@ -32,6 +32,12 @@ This repo contains the core hub and spoke network shared service for my Azure Su
         - 10.1.2.0 thru 10.1.2.255
         - 256
 
+## Self Hosted Github 
+
+### Installed Software
+
+  
+
 ## References
 
 - [Create a hub and spoke hybrid network topology in Azure using Terraform](https://docs.microsoft.com/en-us/azure/developer/terraform/hub-spoke-introduction)
