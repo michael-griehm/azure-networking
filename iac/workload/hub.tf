@@ -13,3 +13,9 @@ resource "azurerm_virtual_network_peering" "hub_to_delta_lakehouse_spoke" {
   remote_virtual_network_id = azurerm_virtual_network.delta_lakehouse_spoke.id
 }
 
+resource "azurerm_virtual_network_peering" "delta_lakehouse_spoke_to_hub" {
+  name                      = "delta-lakehouse-spoke-to-hub"
+  resource_group_name       = data.azurerm_resource_group.rg.name
+  virtual_network_name      = azurerm_virtual_network.delta_lakehouse_spoke.name
+  remote_virtual_network_id = azurerm_virtual_network.hub.id
+}
