@@ -64,9 +64,9 @@ resource "azurerm_linux_virtual_machine" "dlta_lakehouse_runner" {
   }
 
   source_image_reference {
+    offer     = "0001-com-ubuntu-server-focal"
     publisher = "Canonical"
-    offer     = "UbuntuServer"
-    sku       = "20.04-LTS"
+    sku       = "20_04-lts-gen2"
     version   = "latest"
   }
 }
