@@ -61,15 +61,15 @@ Download
 
     mkdir actions-runner && cd actions-runner
 
-    curl -o actions-runner-linux-x64-2.294.0.tar.gz -L https://github.com/actions/runner/releases/download/v2.294.0/actions-runner-linux-x64-2.294.0.tar.gz
-
-    echo "a19a09f4eda5716e5d48ba86b6b78fc014880c5619b9dba4a059eaf65e131780  actions-runner-linux-x64-2.294.0.tar.gz" | shasum -a 256 -c
-
-    tar xzf ./actions-runner-linux-x64-2.294.0.tar.gz
+    curl -o actions-runner-linux-x64-2.296.1.tar.gz -L https://github.com/actions/runner/releases/download/v2.296.1/actions-runner-linux-x64-2.296.1.tar.gz
+    
+    echo "bc943386c499508c1841bd046f78df4f22582325c5d8d9400de980cb3613ed3b  actions-runner-linux-x64-2.296.1.tar.gz" | shasum -a 256 -c
+    
+    tar xzf ./actions-runner-linux-x64-2.296.1.tar.gz
 
 Configure
 
-    ./config.sh --url https://github.com/michael-griehm/azure-delta-lakehouse --token AXFBR4T4VMOWIFY5OTKYFYTCZRXDI
+    ./config.sh --url https://github.com/michael-griehm/azure-delta-lakehouse --token AXFBR4Q722AXT2TWP5MLLBTDC6JM2
 
     ./run.sh
 
