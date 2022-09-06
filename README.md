@@ -19,10 +19,6 @@ The following are the spoke workload networks:
 
 - Delta Lakehouse Workload
 
-## Workloads Deployed
-
-- Delta Lakehouse
-
 ## Used Address Ranges
 
 - Hub: 10.0.0.0/16
@@ -36,22 +32,22 @@ The following are the spoke workload networks:
       - 10.0.2.0 thru 10.0.2.255
       - 256
 - Delta Lakehouse Spoke: 10.1.0.0/16
-    - 10.1.0.0 thru 10.1.255.255
-    - 65,534
-    - Subnets:
-      - Databricks Public: 10.1.0.0/24 
-        - 10.1.0.0 thru 10.1.0.255
-        - 256
-      - Databricks Private: 10.1.1.0/24 
-        - 10.1.1.0 thru 10.2.1.255
-        - 256
-      - Storage Private Endpoints: 10.1.2.0/24 
-        - 10.1.2.0 thru 10.1.2.255
-        - 256
+  - 10.1.0.0 thru 10.1.255.255
+  - 65,534
+  - Subnets:
+    - Databricks Public: 10.1.0.0/24
+      - 10.1.0.0 thru 10.1.0.255
+      - 256
+    - Databricks Private: 10.1.1.0/24
+      - 10.1.1.0 thru 10.2.1.255
+      - 256
+    - Storage Private Endpoints: 10.1.2.0/24
+      - 10.1.2.0 thru 10.1.2.255
+      - 256
 
-## Self Hosted Github 
+## The Self Hosted Github Runner
 
-The github self hosted runner is Ubuntu 20.04 LTS.
+The github self hosted runner is a virtual machine using the operation system of `Ubuntu 20.04 LTS`.
 
 Below is the commands used to install the runner and other needed software.
 
@@ -90,6 +86,16 @@ Might need to use the latest in the future.
 
     curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -
 sudo apt-get install -y nodejs
+
+## The Jumpbox
+
+The jumpbox is a virtual machine using the operation system of `Windows 2019 Datacenter`.
+
+Below are the commands executed against the virtual machine.
+
+### Install Chrome
+
+    $LocalTempDir = $env:TEMP; $ChromeInstaller = "ChromeInstaller.exe"; (new-object    System.Net.WebClient).DownloadFile('http://dl.google.com/chrome/install/375.126/chrome_installer.exe', "$LocalTempDir\$ChromeInstaller"); & "$LocalTempDir\$ChromeInstaller" /silent /install; $Process2Monitor =  "ChromeInstaller"; Do { $ProcessesFound = Get-Process | ?{$Process2Monitor -contains $_.Name} | Select-Object -ExpandProperty Name; If ($ProcessesFound) { "Still running: $($ProcessesFound -join ', ')" | Write-Host; Start-Sleep -Seconds 2 } else { rm "$LocalTempDir\$ChromeInstaller" -ErrorAction SilentlyContinue -Verbose } } Until (!$ProcessesFound)
 
 ## References
 
